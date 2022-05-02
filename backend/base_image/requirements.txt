@@ -1,0 +1,7 @@
+fastapi==0.70.1
+names==0.3.0
+PyJWT==2.3.0
+PyMySQL==1.0.2
+sqlmodel==0.0.6
+uvicorn>=0.17.6
+werkzeug==2.0.3
