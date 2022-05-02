@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% for type in types %}
+    <div>
+        <p>
+            Type ID: <b>{{ type.id }}</b><br>
+            Max Capacity: <b>{{ type.max_cap }}</b>
+        </p>
+    </div>
+    {% endfor %}
+    <hr>
+    <hr>
+    <div>
+        <h3>Airplane Type Registration Form</h3>
+        <form action="http://flights:5000/api/airplane_type/create" method="post" novalidate>
+            {{ form1.hidden_tag() }}
+            <p>
+                {{ form1.type_id.label }}<br>
+                {{ form1.type_id(size=32) }}
+            </p>
+            <p>
+                {{ form1.max_capacity.label }}<br>
+                {{ form1.max_capacity(size=32) }}
+            </p>
+            <p>{{ form1.submit() }}</p>
+        </form>
+    </div>
+    <hr>
+    <hr>
+    <div>
+        <h3>Airplane Type Deletion Form</h3>
+        <form action="http://flights:5000/api/airplane/delete" method="post" novalidate>
+            {{ form2.hidden_tag() }}
+            <p>
+                {{ form2.airplane_id.label }}<br>
+                {{ form2.type_id(size=32) }}
+            </p>
+            <p>{{ form2.submit() }}</p>
+        </form>
+    </div>
+{% endblock %}

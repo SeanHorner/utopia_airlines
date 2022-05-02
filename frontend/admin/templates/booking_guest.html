@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% for b_guest in b_guests %}
+    <div>
+        <p>
+            Booking ID: <b>{{ b_guest.booking_id }}</b><br>
+            Contact Email: <b>{{ b_guest.contact_email }}</b><br>
+            Contact Phone: <b>{{ b_guest.contact_phone }}</b>
+        </p>
+    </div>
+    {% endfor %}
+    <hr>
+    <hr>
+    <div>
+        <h3>Booking Guest Registration Form</h3>
+        <form action="http://bookings:5000/api/booking_guest/create" method="post" novalidate>
+            {{ form1.hidden_tag() }}
+            <p>
+                {{ form1.booking_id.label }}<br>
+                {{ form1.booking_id(size=32) }}
+            </p>
+            <p>
+                {{ form1.contact_email.label }}<br>
+                {{ form1.contact_email(size=32) }}
+            </p>
+            <p>
+                {{ form1.contact_phone.label }}<br>
+                {{ form1.contact_phone(size=32) }}
+            </p>
+            <p>{{ form1.submit() }}</p>
+        </form>
+    </div>
+    <hr>
+    <hr>
+    <div>
+        <h3>Booking Guest Deletion Form</h3>
+        <form action="http://bookings:5000/api/booking_guest/delete" method="post" novalidate>
+            {{ form2.hidden_tag() }}
+            <p>
+                {{ form2.booking_id.label }}<br>
+                {{ form2.booking_id(size=32) }}
+            </p>
+            <p>{{ form2.submit() }}</p>
+        </form>
+    </div>
+{% endblock %}

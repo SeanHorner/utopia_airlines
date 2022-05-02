@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% for passenger in passengers %}
+    <div>
+        <p>
+            Passenger ID: <b>{{ passenger.id }}</b><br>
+            Booking ID: <b>{{ passenger.booking_id }}</b><br>
+            Full Name: <b>{{ passenger.given_name }} {{ passenger.family_name }}</b><br>
+            Birthdate: <b>{{ passenger.dob }}</b><br>
+            Gender: <b>{{ passenger.gender }}</b><br>
+            Address: <b>{{ passenger.address }}</b>
+        </p>
+    </div>
+    {% endfor %}
+    <hr>
+    <hr>
+    <div>
+        <h3>Passenger Registration Form</h3>
+        <form action="http://bookings:5000/api/passenger/create" method="post" novalidate>
+            {{ form1.hidden_tag() }}
+            <p>
+                {{ form1.id.label }}<br>
+                {{ form1.id(size=32) }}
+            </p>
+            <p>
+                {{ form1.booking_id.label }}<br>
+                {{ form1.booking_id(size=32) }}
+            </p>
+            <p>
+                {{ form1.given_name.label }}<br>
+                {{ form1.given_name(size=32) }}
+            </p>
+            <p>
+                {{ form1.family_name.label }}<br>
+                {{ form1.family_name(size=32) }}
+            </p>
+            <p>
+                {{ form1.dob.label }}<br>
+                {{ form1.dob(size=32) }}
+            </p>
+            <p>
+                {{ form1.gender.label }}<br>
+                {{ form1.gender(size=32) }}
+            </p>
+            <p>
+                {{ form1.address.label }}<br>
+                {{ form1.address(size=32) }}
+            </p>
+            <p>{{ form1.submit() }}</p>
+        </form>
+    </div>
+    <hr>
+    <hr>
+    <div>
+        <h3>Passenger Deletion Form</h3>
+        <form action="http://bookings:5000/api/passenger/delete" method="post" novalidate>
+            {{ form2.hidden_tag() }}
+            <p>
+                {{ form2.id.label }}<br>
+                {{ form2.id(size=32) }}
+            </p>
+            <p>{{ form2.submit() }}</p>
+        </form>
+    </div>
+{% endblock %}

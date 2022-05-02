@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% for route in routes %}
+    <div>
+        <p>
+            Route ID: <b>{{ route.id }}</b><br>
+            Origin: <b>{{ route.origin_id }}</b><br>
+            Destination: <b>{{ route.destination_id }}</b><br>
+            Duration: <b>{{ route.duration }}</b>
+        </p>
+    </div>
+    {% endfor %}
+    <hr>
+    <hr>
+    <div>
+        <h3>Route Registration Form</h3>
+        <form action="http://flights:5000/api/route/create" method="post" novalidate>
+            {{ form1.hidden_tag() }}
+            <p>
+                {{ form1.origin_id.label }}<br>
+                {{ form1.origin_id(size=32) }}
+            </p>
+            <p>
+                {{ form1.destination_id.label }}<br>
+                {{ form1.destination_id(size=32) }}
+            </p>
+            <p>{{ form1.submit() }}</p>
+        </form>
+    </div>
+    <hr>
+    <hr>
+    <div>
+        <h3>Route Deletion Form</h3>
+        <form action="http://flights:5000/api/route/delete" method="post" novalidate>
+            {{ form2.hidden_tag() }}
+            <p>
+                {{ form2.route_id.label }}<br>
+                {{ form2.route_id(size=32) }}
+            </p>
+            <p>{{ form2.submit() }}</p>
+        </form>
+    </div>
+{% endblock %}
