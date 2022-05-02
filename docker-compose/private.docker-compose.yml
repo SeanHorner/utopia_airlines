@@ -1,0 +1,55 @@
+version: "3"
+
+services:
+
+  security:
+    image: 026390315914.dkr.ecr.us-west-2.amazonaws.com/utopia_backend_security_microservice-sh
+    environment:
+      - SECRET_KEY="This:Is:A:Bad:Secret:Key:Bro!"
+      - DB_ACCESS_URI="utopiaAdmin:UtopiaAirlines4TheWin!@db:3306/utopia"
+    ports:
+      - "5050:5050"
+
+  bookings:
+    image: 026390315914.dkr.ecr.us-west-2.amazonaws.com/utopia_backend_bookings_microservice-sh
+    environment:
+      - SECRET_KEY="This:Is:A:Bad:Secret:Key:Bro!"
+      - DB_ACCESS_URI="utopiaAdmin:UtopiaAirlines4TheWin!@db:3306/utopia"
+    ports:
+      - "5010:5010"
+
+  flights:
+    image: 026390315914.dkr.ecr.us-west-2.amazonaws.com/utopia_backend_flights_fastapi-sh
+    environment:
+      - SECRET_KEY="This:Is:A:Bad:Secret:Key:Bro!"
+      - DB_ACCESS_URI="utopiaAdmin:UtopiaAirlines4TheWin!@db:3306/utopia"
+    ports:
+      - "5020:5020"
+
+  users:
+    image: 026390315914.dkr.ecr.us-west-2.amazonaws.com/utopia_backend_users_microservice-sh
+    environment:
+      - SECRET_KEY="This:Is:A:Bad:Secret:Key:Bro!"
+      - DB_ACCESS_URI="utopiaAdmin:UtopiaAirlines4TheWin!@db:3306/utopia"
+    ports:
+      - "5030:5030"
+
+  data_prod:
+    image: 026390315914.dkr.ecr.us-west-2.amazonaws.com/utopia_backend_data_producers_microservice-sh
+    environment:
+      - SECRET_KEY="This:Is:A:Bad:Secret:Key:Bro!"
+      - DB_ACCESS_URI="utopiaAdmin:UtopiaAirlines4TheWin!@db:3306/utopia"
+    ports:
+      - "5040:5040"
+
+  admin:
+    image: 026390315914.dkr.ecr.us-west-2.amazonaws.com/utopia_frontend_admin_microservice-sh
+    environment:
+      - SECRET_KEY="This:Is:A:Bad:Secret:Key:Bro!"
+    ports:
+      - "5000:5000"
+
+  # db:
+  #   image: mysql
+  #   environment:
+  #     - MYSQL_ROOT_PASSWORD="UtopiaArilines4TheWin!"
