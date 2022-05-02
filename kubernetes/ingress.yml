@@ -1,0 +1,45 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress
+  annotation:
+    kubernetes.io/ingress.class: nginx
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /bookings
+            pathType: Prefix
+            backend:
+              service:
+                name: bookings-service
+                port:
+                  number: 5010
+          - path: /flights
+              pathType: Prefix
+              backend:
+                service:
+                  name: flights-service
+                  port:
+                    number: 5020
+          - path: /users
+              pathType: Prefix
+              backend:
+                service:
+                  name: users-service
+                  port:
+                    number: 5003
+          - path: /data_producers
+              pathType: Prefix
+              backend:
+                service:
+                  name: data_producers-service
+                  port:
+                    number: 5004
+          - path: /admin
+              pathType: Prefix
+              backend:
+                service:
+                  name: admin-service
+                  port:
+                    number: 5000

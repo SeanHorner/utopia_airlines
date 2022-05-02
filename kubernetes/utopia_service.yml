@@ -1,0 +1,72 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: bookings-service
+  labels:
+    app: bookings
+spec:
+  selector:
+    app: bookings
+  ports:
+    - port: 5010
+      protocol: TCP
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: flights-service
+  labels:
+    app: flights
+spec:
+  selector:
+    app: flights
+  ports:
+    - port: 5020
+      protocol: TCP
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: users-service
+  labels:
+    app: users
+spec:
+  selector:
+    app: users
+  ports:
+    - port: 5030
+      protocol: TCP
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: data_producers-service
+  labels:
+    app: data_producers
+spec:
+  selector:
+    app: data_producers
+  ports:
+    - port: 5040
+      protocol: TCP
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: admin-service
+  labels:
+    app: admin
+spec:
+  selector:
+    app: admin
+  ports:
+    - port: 5000
+      protocol: TCP

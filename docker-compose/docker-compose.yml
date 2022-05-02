@@ -1,0 +1,91 @@
+version: "3"
+
+services:
+
+  back-base:
+    image: utopia_backend_base
+    build: ../backend/base_image
+  
+  front-base:
+    image: utopia_frontend_base
+    build: ../frontend/base_image
+
+  security:
+    image: utopia_backend_security
+    build: ../backend/security
+    secrets:
+      - utopia_db_uri
+      - utopia_secret_key
+    ports:
+      - "5090:5000"
+
+  bookings:
+    image: utopia_backend_bookings
+    build: ../backend/bookings
+    secrets:
+      - utopia_db_uri
+      - utopia_secret_key
+    ports:
+      - "5010:5000"
+
+  flights:
+    image: utopia_backend_flights
+    build: ../backend/flights
+    secrets:
+      - utopia_db_uri
+      - utopia_secret_key
+    ports:
+      - "5020:5000"
+
+  users:
+    image: utopia_backend_users
+    build: ../backend/users
+    secrets:
+      - utopia_db_uri
+      - utopia_secret_key
+    ports:
+      - "5030:5000"
+
+  data_prod:
+    image: utopia_backend_data_producer
+    build: ../backend/dataproducer
+    secrets:
+      - utopia_db_uri
+      - utopia_secret_key
+    depends_on:
+      - users
+      - flights
+      - bookings
+    ports:
+      - "5050:5000"
+  
+  data_load:
+    image: utopia_backend_data_loader
+    build: ../backend/dataloader
+    secrets:
+      - utopia_db_uri
+      - utopia_secret_key
+    depends_on:
+      - users
+      - flights
+      - bookings
+    ports:
+      - "5060:5000"
+
+  admin:
+    image: utopia_frontend_admin
+    build: ../frontend/admin
+    secrets:
+      - utopia_secret_key
+    ports:
+      - "5000:5000"
+    depends_on:
+      - users
+      - flights
+      - bookings
+
+secrets:
+  utopia_db_uri:
+    file: utopia_db_uri
+  utopia_secret_key:
+    file: utopia_secret_key

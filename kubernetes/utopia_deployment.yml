@@ -1,0 +1,162 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bookings-deployment
+  labels:
+    app: bookings
+    project: utopia_airlines
+    tier: backend
+    type: api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bookings
+      project: utopia_airlines
+      tier: backend
+      type: api
+  template:
+    metadata:
+      labels:
+        app: bookings
+        project: utopia_airlines
+        tier: backend
+        type: api
+    spec:
+      containers:
+        - name: bookings
+          image: public.eks.aws/b9s2q8s8/utopia_backend_bookings_microservice
+          ports:
+            - containerPort: 5010
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flights-deployment
+  labels:
+    app: flights
+    project: utopia_airlines
+    tier: backend
+    type: api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flights
+      project: utopia_airlines
+      tier: backend
+      type: api
+  template:
+    metadata:
+      labels:
+        app: flights
+        project: utopia_airlines
+        tier: backend
+        type: api
+    spec:
+      containers:
+        - name: flights
+          image: public.eks.aws/b9s2q8s8/utopia_backend_flights_microservice
+          ports:
+            - containerPort: "${FLIGHT_PORT}"
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: users-deployment
+  labels:
+    app: users
+    project: utopia_airlines
+    tier: backend
+    type: api
+spec:
+  replicas: 1
+  selector:
+    matchLables:
+      app: users
+      project: utopia_airlines
+      tier: backend
+      type: api
+  template:
+    metadata:
+      labels:
+        app: users
+        project: utopia_airlines
+        tier: backend
+        type: api
+    spec:
+      containers:
+        - name: users
+          image: public.eks.aws/b9s2q8s8/utopia_backend_users_microservice
+          ports:
+            - containerPort: 5030
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: data-producers-deployment
+  labels:
+    app: data_producers
+    project: utopia_airlines
+    tier: backend
+    type: data_producer
+spec:
+  replicas: 1
+  selector:
+    matchLables:
+      app: data_producers
+      project: utopia_airlines
+      tier: backend
+      type: data_producer
+  template:
+    metadata:
+      labels:
+        app: data_producers
+        project: utopia_airlines
+        tier: backend
+        type: data_producer
+    spec:
+      containers:
+        - name: users
+          image: public.eks.aws/b9s2q8s8/utopia_backend_data_producers_microservice
+          ports:
+            - containerPort: 5040
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: admin-deployment
+  labels:
+    app: admin
+    project: utopia_airlines
+    tier: frontend
+    type: web
+spec:
+  replicas: 1
+  selector:
+    matchLables:
+      app: admin
+      project: utopia_airlines
+      tier: frontend
+      type: web
+  template:
+    metadata:
+      labels:
+        app: admin
+        project: utopia_airlines
+        tier: frontend
+        type: web
+    spec:
+      containers:
+        - name: admin
+          image: public.eks.aws/b9s2q8s8/utopia_frontend_admin_microservice
+          ports:
+            - containerPort: 5000

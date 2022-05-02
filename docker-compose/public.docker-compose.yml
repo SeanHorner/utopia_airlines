@@ -1,0 +1,48 @@
+version: "3"
+
+services:
+
+  security:
+    image: seanhorner/utopia_backend_security_microservice:latest
+    environment:
+      - SECRET_KEY
+      - DB_ACCESS_URI
+
+  bookings:
+    image: seanhorner/utopia_backend_bookings_microservice:latest
+    environment:
+      - SECRET_KEY
+      - DB_ACCESS_URI
+
+  flights:
+    image: seanhorner/utopia_backend_flights_microservice:latest
+    environment:
+      - SECRET_KEY
+      - DB_ACCESS_URI
+
+  users:
+    image: seanhorner/utopia_backend_users_microservice:latest
+    environment:
+      - SECRET_KEY
+      - DB_ACCESS_URI
+
+  data_prod:
+    image: seanhorner/utopia_backend_data_producers_microservice:latest
+    environment:
+      - SECRET_KEY
+      - DB_ACCESS_URI
+    depends_on:
+      - users
+      - flights
+      - bookings
+
+  admin:
+    image: seanhorner/utopia_frontend_admin_microservice:latest
+    environment:
+      - SECRET_KEY
+    ports:
+      - "5000:5000"
+    depends_on:
+      - users
+      - flights
+      - bookings

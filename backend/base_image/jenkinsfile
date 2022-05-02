@@ -1,0 +1,58 @@
+#!groovy
+// Backend Base FastAPI Image Pipeline
+pipeline {
+  agent { node { label "aws-ready" } }
+
+  environment {
+    COMMIT = sh(returnStdout: true, script: "git rev-parse --short=8 HEAD").trim()
+    ORG_ECR_URI = "${ORG_ACCOUNT_NUM}.dkr.ecr.${region}.amazonaws.com"
+    REPO_NAME = "utopia_fastapi_backend_base-sh"
+    SCANNER_HOME = tool "${SonarQubeScanner}";
+  }
+
+  stages {
+
+    stage("AWS Login") {
+      steps {
+        echo "Getting AWS credentials to push to Org ECR..."
+        sh "aws ecr get-login-password --region ${region} | docker login --username AWS --password-stdin ${ORG_ECR_URI}"
+      }
+    }
+
+    // stage("SonarQube Analysis") {
+    //   steps{
+    //     echo "Beginning SonarQube analysis..."
+    //     withSonarQubeEnv(installationName: "SonarQube") {
+    //       sh "${SCANNER_HOME}/bin/sonar-scanner"
+    //     }
+    //   }
+    // }
+
+    stage("Build") {
+      steps {
+        echo "Building Docker image..."
+        sh "docker build -t ${REPO_NAME} ."
+      }
+    }
+
+    stage("Push") {
+      steps {
+        echo "Tagging images..."
+        sh "docker tag ${REPO_NAME}:latest ${ORG_ECR_URI}/${REPO_NAME}:latest"
+        sh "docker tag ${REPO_NAME}:latest ${ORG_ECR_URI}/${REPO_NAME}:${COMMIT}"
+        echo "Pushing images..."
+        sh "docker push ${ORG_ECR_URI}/${REPO_NAME}:latest"
+        sh "docker push ${ORG_ECR_URI}/${REPO_NAME}:${COMMIT}"
+      }
+    }
+
+    stage("Cleanup") {
+      steps {
+        echo "Removing images"
+        sh "docker rmi ${REPO_NAME}:latest"
+        sh "docker rmi ${ORG_ECR_URI}/${REPO_NAME}:latest"
+        sh "docker rmi ${ORG_ECR_URI}/${REPO_NAME}:${COMMIT}"
+      }
+    }
+  }
+}
