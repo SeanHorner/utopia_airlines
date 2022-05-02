@@ -1,0 +1,50 @@
+pipeline {
+  agent { node { label "aws-ready" } }
+
+  environment {
+      ECS_CONTEXT_NAME = "aws_ecs-sh"
+      ORG_ECR_URI = "${ORG_ACCOUNT_NUM}.dkr.ecr.${region}.amazonaws.com"
+      SECRET_ID = "dev/SeanH/utopia-secrets"
+      COMPOSE_FILE = "jenkins-docker-compose/docker-compose.yml"
+  }
+
+  stages {
+    stage("Environment Loading") {
+      steps {
+        echo "Loading environmental variables from AWS Secrets..."
+        // script {
+        //   withCredentials([
+        //     string(credentialsId: env.SECRET_ID,
+        //     variable: "UtopiaCreds")
+        //   ]) {
+        //     def jsonObj = readJSON text; UtopiaCreds
+        //     env.SECRET_KEY = jsonObj.SECRET_KEY
+        //     env.USERNAME = jsonObj.DB_USERNAME
+        //     env.PASSWORD = jsonObj.DB_PASSWORD
+        //     env.RDS_INST = jsonObj.RDS_INST
+        //     env.DB_ACCESS_URI = "${USERNAME}:${PASSWORD}@${RDS_INST}"
+        //   }
+        // }
+      }
+    }
+
+    stage("Docker-Compose Running") {
+      steps {
+        dir("jenkins_docker_compose") {
+          echo "Printing running services..."
+          sh "docker compose ps"
+        }
+      }
+    }
+    
+    stage("Docker-Compose Take Down") {
+      steps {
+        dir("jenkins_docker_compose") {
+          echo "Bringing services down..."
+          sh "docker compose down"
+          sh "docker context use default"
+        }
+      }
+    }
+  }
+}

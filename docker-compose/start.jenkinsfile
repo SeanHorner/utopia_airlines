@@ -1,0 +1,77 @@
+pipeline {
+  agent { node { label "aws-ready" } }
+
+  environment {
+      ECS_CONTEXT_NAME = "aws_ecs-sh"
+      ORG_ECR_URI = "${ORG_ACCOUNT_NUM}.dkr.ecr.${region}.amazonaws.com"
+      SECRET_ID = "dev/SeanH/utopia-secrets"
+      COMPOSE_FILE = "jenkins-docker-compose/docker-compose.yml"
+  }
+
+  stages {
+    stage("Environment Loading") {
+      steps {
+        echo "Loading environmental variables from AWS Secrets..."
+        // script {
+        //   withCredentials([
+        //     string(credentialsId: env.SECRET_ID,
+        //     variable: "UtopiaCreds")
+        //   ]) {
+        //     def jsonObj = readJSON text; UtopiaCreds
+        //     env.SECRET_KEY = jsonObj.SECRET_KEY
+        //     env.USERNAME = jsonObj.DB_USERNAME
+        //     env.PASSWORD = jsonObj.DB_PASSWORD
+        //     env.RDS_INST = jsonObj.RDS_INST
+        //     env.DB_ACCESS_URI = "${USERNAME}:${PASSWORD}@${RDS_INST}"
+        //   }
+        // }
+      }
+    }
+
+    stage("AWS ECR Private Repo Login") {
+      steps {
+        echo "Logging in to the organization\'s private ECR repos..."
+        sh "aws ecr get-login-password --region ${region} |docker login --username AWS --password-stdin ${ORG_ECR_URI}"
+      }
+    }
+
+    stage("Docker-Compose Set-Up") {
+      steps {
+        echo "Setting up Docker context and getting repo credentials..."
+        sh "docker context use ${ECS_CONTEXT_NAME}"
+      }
+    }
+
+    stage("Docker-Compose Deployment") {
+      steps {
+        dir("jenkins_docker_compose") {
+          echo "Bringing services online..."
+          sh "docker compose up"
+        }
+      }
+    }
+
+    stage("Docker Context Change [Shutdown]") {
+      steps {
+        echo "Switching Docker context for shut down..."
+        sh "docker context use ${ECS_CONTEXT_NAME}"
+      }
+    }
+
+    stage("Docker-Compose Running") {
+      steps {
+        dir("jenkins_docker_compose") {
+          echo "Printing running services..."
+          sh "docker compose ps"
+        }
+      }
+    }
+
+    stage("Docker Context Reversion") {
+      steps {
+        echo "Switching Docker context back after start up..."
+        sh "docker context use default"
+      }
+    }
+  }
+}
