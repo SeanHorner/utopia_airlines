@@ -1,0 +1,1 @@
+**NOTE**: These deployments require a utopia_db_uri file containing the full url to connect to the backend database (including username and password) and the secret key in the utopia_secret_key file should be changed.
