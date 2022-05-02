@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% for booking in bookings %}
+    <div>
+        <p>
+            Booking ID: <b>{{ booking.id }}</b><br>
+            Is Active: <b>{{ booking.is_active }}</b><br>
+            Confirm Code: <b>{{ booking.confirmation_code }}</b>
+        </p>
+    </div>
+    {% endfor %}
+    <hr>
+    <hr>
+    <div>
+        <h3>Booking Registration Form</h3>
+        <form action="http://bookings:5000/api/booking/create" method="post" novalidate>
+            {{ form1.hidden_tag() }}
+            <p>
+                {{ form1.id.label }}<br>
+                {{ form1.id(size=32) }}
+            </p>
+            <p>
+                {{ form1.is_active.label }}<br>
+                {{ form1.is_active(size=32) }}
+            </p>
+            <p>
+                {{ form1.confirmation_code.label }}<br>
+                {{ form1.confirmation_code(size=32) }}
+            </p>
+            <p>{{ form1.submit() }}</p>
+        </form>
+    </div>
+    <hr>
+    <hr>
+    <div>
+        <h3>Booking Deletion Form</h3>
+        <form action="http://bookings:5000/api/booking/delete" method="post" novalidate>
+            {{ form2.hidden_tag() }}
+            <p>
+                {{ form2.id.label }}<br>
+                {{ form2.id(size=32) }}
+            </p>
+            <p>{{ form2.submit() }}</p>
+        </form>
+    </div>
+{% endblock %}

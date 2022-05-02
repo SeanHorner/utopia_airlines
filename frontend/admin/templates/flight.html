@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% for flight in flights %}
+    <div>
+        <p>
+            Flight ID: <b>{{ flight.id }}</b><br>
+            Route ID: <b>{{ flight.route_id }}</b><br>
+            Airplane ID: <b>{{ flight.airplane_id }}</b><br>
+            Departure Time: <b>{{ flight.departure_time }}</b><br>
+            Reserved Seats: <b>{{ flight.reserved_seats }}</b><br>
+            Seat Price: <b>{{ flight.seat_price }}</b>
+        </p>
+    </div>
+    {% endfor %}
+    <hr>
+    <hr>
+    <div>
+        <h3>Flight Registration Form</h3>
+        <form action="http://flights:5000/api/flight/create" method="post" novalidate>
+            {{ form1.hidden_tag() }}
+            <p>
+                {{ form1.id.label }}<br>
+                {{ form1.id(size=32) }}
+            </p>
+            <p>
+                {{ form1.route_id.label }}<br>
+                {{ form1.route_id(size=32) }}
+            </p>
+            <p>
+                {{ form1.airplane_id.label }}<br>
+                {{ form1.airplane_id(size=32) }}
+            </p>
+            <p>
+                {{ form1.departure_time.label }}<br>
+                {{ form1.departure_time(size=32) }}
+            </p>
+            <p>
+                {{ form1.reserved_seats.label }}<br>
+                {{ form1.reserved_seats(size=32) }}
+            </p>
+            <p>
+                {{ form1.seat_price.label }}<br>
+                {{ form1.seat_price(size=32) }}
+            </p>
+            <p>{{ form1.submit() }}</p>
+        </form>
+    </div>
+    <hr>
+    <hr>
+    <div>
+        <h3>Flight Deletion Form</h3>
+        <form action="http://flights:5000/api/flight/delete" method="post" novalidate>
+            {{ form2.hidden_tag() }}
+            <p>
+                {{ form2.id.label }}<br>
+                {{ form2.id(size=32) }}
+            </p>
+            <p>{{ form2.submit() }}</p>
+        </form>
+    </div>
+{% endblock %}

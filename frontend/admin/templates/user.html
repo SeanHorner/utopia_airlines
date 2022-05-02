@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% for user in users %}
+    <div>
+        <p>
+            User ID: <b>{{ user.id }}</b><br>
+            Role ID: <b>{{ user.role_id }}</b><br>
+            Full Name: <b>{{ user.given_name }} {{ user.family_name }}</b><br>
+            Username: <b>{{ user.username }}</b><br>
+            Email: <b>{{ user.email }}</b><br>
+            Phone: <b>{{ user.phone }}</b>
+        </p>
+    </div>
+    {% endfor %}
+    <hr>
+    <hr>
+    <div>
+        <h3>User Registration Form</h3>
+        <form action="http://users:5000/api/user/create" method="post" novalidate>
+            {{ form1.hidden_tag() }}
+            <p>
+                {{ form1.id.label }}<br>
+                {{ form1.id(size=32) }}
+            </p>
+            <p>
+                {{ form1.role_id.label }}<br>
+                {{ form1.role_id(size=32) }}
+            </p>
+            <p>
+                {{ form1.given_name.label }}<br>
+                {{ form1.given_name(size=32) }}
+            </p>
+            <p>
+                {{ form1.family_name.label }}<br>
+                {{ form1.family_name(size=32) }}
+            </p>
+            <p>
+                {{ form1.username.label }}<br>
+                {{ form1.username(size=32) }}
+            </p>
+            <p>
+                {{ form1.password.label }}<br>
+                {{ form1.password(size=32) }}
+            </p>
+            <p>
+                {{ form1.email.label }}<br>
+                {{ form1.email(size=32) }}
+            </p>
+            <p>
+                {{ form1.phone.label }}<br>
+                {{ form1.phone(size=32) }}
+            </p>
+            <p>{{ form1.submit() }}</p>
+        </form>
+    </div>
+    <hr>
+    <hr>
+    <div>
+        <h3>User Role Registration Form</h3>
+        <form action="http://users:5000/api/user/delete/{id}" method="post" novalidate>
+            {{ form2.hidden_tag() }}
+            <p>
+                {{ form2.id.label }}<br>
+                {{ form2.id(size=32) }}
+            </p>
+            <p>{{ form2.submit() }}</p>
+        </form>
+    </div>
+{% endblock %}
