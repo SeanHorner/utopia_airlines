@@ -1,0 +1,2 @@
+# utopia_airlines
+A training project designed to test skills with microservice archtectures (e.g. Flask, Spring, FastAPI) as well as containerization (Docker, Podman), kubernetes orchestrated deployment, IaC cloud deployments (e.g. Terraform, Ansible) and code versioning (proper git branch and permissions usage). As well as any other small projects I can hook in (maybe an ELK stack, or Kafka monitoring, etc.)
