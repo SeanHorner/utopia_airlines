@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% for airplane in airplanes %}
+    <div>
+        <p>
+            Airplane ID: <b>{{ airplane.id }}</b><br>
+            Type ID: <b>{{ airplane.type_id }}</b>
+        </p>
+    </div>
+    {% endfor %}
+    <hr>
+    <hr>
+    <div>
+        <h3>Airplane Registration Form</h3>
+        <form action="http://flights:5000/api/airplane/create" method="post" novalidate>
+            {{ form1.hidden_tag() }}
+            <p>
+                {{ form1.airplane_type.label }}<br>
+                {{ form1.airplane_type(size=32) }}
+            </p>
+            <p>{{ form1.submit() }}</p>
+        </form>
+    </div>
+    <hr>
+    <hr>
+    <div>
+        <h3>Airplane Deletion Form</h3>
+        <form action="http://flights:5000/api/airplane/delete" method="post" novalidate>
+            {{ form2.hidden_tag() }}
+            <p>
+                {{ form2.airplane_id.label }}<br>
+                {{ form2.airplane_id(size=32) }}
+            </p>
+            <p>{{ form2.submit() }}</p>
+        </form>
+    </div>
+{% endblock %}

@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {{ bootstrap.load_css() }}
+    {% if title %}
+        <title>Utopia Admin Services -> {{ title }}</title>
+    {% else %}
+        <title>Welcome to Utopia Admin Services</title>
+    {% endif %}
+</head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+          <a class="navbar-brand" href="/about"> &ensp;Utopia </a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="/about">Home</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarInfrastructure" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Infrastructure
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="/airport">Airport</a>
+                    <a class="dropdown-item" href="/route">Routes</a>
+                    <a class="dropdown-item" href="/flight">Flights</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarFleet" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Fleet
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="/airplane">Airplanes</a>
+                    <a class="dropdown-item" href="/airplane_type">Airplane Types</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarBookings" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Bookings
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="/booking">Bookings</a>
+                    <a class="dropdown-item" href="/booking_guest">Guests</a>
+                    <a class="dropdown-item" href="/booking_payments">Payments</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarPeople" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    People
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="/passenger">Passengers</a>
+                    <a class="dropdown-item" href="/user">Users</a>
+                    <a class="dropdown-item" href="/user_role">User Role</a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/register">Register</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/login">Login</a>
+            </li>
+            </ul>
+          </div>
+        </nav>
+        <br><br>
+
+        <div class="container"> {% block content %} {% endblock %} </div>
+
+        {{ bootstrap.load_js() }}
+    </body>
+</html>

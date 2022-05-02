@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% for airport in airports %}
+    <div>
+        <p>
+            IATA ID: <b>{{ airport.iata_id }}</b><br>
+            City: <b>{{ airport.city }}</b><br>
+            Name: <b>{{ airport.name }}</b><br>
+            Longitude: <b>{{ airport.longitude }}</b><br>
+            Latitude: <b>{{ airport.latitude }}</b><br>
+            Elevation: <b>{{ airport.elevation }}</b><br>
+        </p>
+    </div>
+    {% endfor %}
+    <hr>
+    <hr>
+    <div>
+        <h3>Airport Registration Form</h3>
+        <form action="http://flights:5000/api/airport/create" method="post" novalidate>
+            {{ form1.hidden_tag() }}
+            <p>
+                {{ form1.iata_id.label }}<br>
+                {{ form1.iata_id(size=32) }}
+            </p>
+            <p>
+                {{ form1.city.label }}<br>
+                {{ form1.city(size=32) }}
+            </p>
+            <p>
+                {{ form1.name.label }}<br>
+                {{ form1.name(size=32) }}
+            </p>
+            <p>
+                {{ form1.longitude.label }}<br>
+                {{ form1.longitude(size=32) }}
+            </p>
+            <p>
+                {{ form1.latitude.label }}<br>
+                {{ form1.latitude(size=32) }}
+            </p>
+            <p>
+                {{ form1.elevation.label }}<br>
+                {{ form1.elevation(size=32) }}
+            </p>
+            <p>{{ form1.submit() }}</p>
+        </form>
+    </div>
+    <hr>
+    <hr>
+    <div>
+        <h3>Airport Deletion Form</h3>
+        <form action="http://flights:5000/api/airport/delete" method="post" novalidate>
+            {{ form2.hidden_tag() }}
+            <p>
+                {{ form2.iata_id.label }}<br>
+                {{ form2.iata_id(size=32) }}
+            </p>
+            <p>{{ form2.submit() }}</p>
+        </form>
+    </div>
+{% endblock %}
