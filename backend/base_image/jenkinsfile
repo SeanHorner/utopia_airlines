@@ -1,0 +1,52 @@
+#!groovy
+// Backend Base Image Pipeline
+pipeline {
+    agent any
+
+    environment {
+
+        commit = sh(returnStdout: true, script: "git rev-parse --short=8 HEAD").trim()
+        aws_region = 'us-east-1'
+        aws_ecr_repo = 'b9s2q8s8'
+        repo_name = 'utopia_backend_base_image'
+
+    }
+
+    stages {
+
+        stage('aws_login') {
+            steps {
+                echo 'Getting AWS credentials to pull from ECR...'
+                sh 'aws ecr-public get-login-password --region ${aws_region} | docker login --username AWS --password-stdin public.ecr.aws/${aws_ecr_repo}'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                echo 'Building Docker image...'
+                sh 'docker build -t ${repo_name} .'
+            }
+        }
+
+        stage('Push Images') {
+            steps {
+                echo 'Tagging images'
+                sh 'docker tag ${repo_name}:latest public.ecr.aws/${aws_ecr_repo}/${repo_name}:latest'
+                sh 'docker tag ${repo_name}:latest public.ecr.aws/${aws_ecr_repo}/${repo_name}:${commit}'
+                echo 'Pushing images'
+                sh 'docker push public.ecr.aws/${aws_ecr_repo}/${repo_name}:latest'
+                sh 'docker push public.ecr.aws/${aws_ecr_repo}/${repo_name}:${commit}'
+            }
+        }
+
+        stage('Cleanup') {
+            steps {
+                echo 'Removing images'
+                sh 'docker rmi ${repo_name}:latest'
+                sh 'docker rmi public.ecr.aws/${aws_ecr_repo}/${repo_name}:latest'
+                sh 'docker rmi public.ecr.aws/${aws_ecr_repo}/${repo_name}:${commit}'
+            }
+        }
+
+    }
+}
